@@ -1,17 +1,14 @@
 package edu.kh.project.member.model.dto;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
-@AllArgsConstructor
 public class Member {
 	private int memberNo;
 	private String memberEmail;

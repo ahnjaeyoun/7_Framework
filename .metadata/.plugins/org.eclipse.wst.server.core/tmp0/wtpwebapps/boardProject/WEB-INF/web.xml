@@ -3,24 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://JAVA.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_4_0.xsd">
 
-	<!-- web.xml(배포 서술자) 
-		서버가 켜질 때 (배포가 시작 될 때) 가장 먼저 읽어들이는 설정 파일
+	<!--  web.xml(배포 서술자)
+		서버가 켜질때 (배포가 시작될 때) 가장 먼저 읽어들이는 설정 파일
 	 -->
-	 
-	 <!-- root-context.xml
-	 	서버가 켜질 때 web.xml이 가장 먼저 읽어들이는 설정 파일
-	 	프조젝트 전반적으로 사용 될 성정, 객체(Bean)를 생성하는 용도의 파일
-	 	
-	 	* classpath : JVM이 프로그램 실행 시 클래스 및 설정파일을 찾는 기준이 되는 경로
-	 	Spring MVC Project는 src/main/java , src/main/resources 두 폴더가 포함이 된다.
-	 	
-	  -->
+
+	<!-- root-context.xml
+		서버가 켜질 때 web.xml이 가장 먼저 읽어들이는 설정 파일
+		프로젝트 전반적으로 사용될 설정, 객체(Bean)를 생성하는 용도의 파일
+		
+		* classpath : JVM이 프로그램 실행 시 클래스 및 설정파일을 찾는 기준이 되는 경로
+		Spring MVC Project 는 src/main/java , src/main/resources 두 폴더가 포함이 된다
+	 -->
 
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/root-context.xml</param-value>
+		<param-value>
+			classpath:spring/root-context.xml
+			classpath:spring/spring-security.xml
+		</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -34,7 +36,6 @@
 	
 		DispatcherServlet(Spring 제공) 객체 생성 시
 		servlet-context.xml 파일을 이용해서 만든다
-	
 	 -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -50,6 +51,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
 	
 	
 	<!-- 한글 깨짐 방지를 위한 Filter 추가 -->

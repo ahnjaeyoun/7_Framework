@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;boardProject/src/main/resources/mappers/ajax-mapper.xml.xml&apos; to &apos;ajax-mapper.xml&apos;" description="Rename resource &apos;ajax-mapper.xml.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/mappers/ajax-mapper.xml.xml" name="ajax-mapper.xml" stamp="1696476139729" updateReferences="true"/>
+</session>
