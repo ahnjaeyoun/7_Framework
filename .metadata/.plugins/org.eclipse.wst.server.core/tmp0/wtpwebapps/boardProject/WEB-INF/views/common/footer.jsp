@@ -33,12 +33,10 @@
 		브라우저 종료 또는 만료 전까지 계속 메시지가 출력된다
 		
 		-> 1회 출력 후 session에서 message 삭제 
-	 
+
 	 
 	 <c:remove var="message" scope="session"/>
 	 
-	 --%>
-	 
-	 
+ 	 --%>
 	 
 </c:if>

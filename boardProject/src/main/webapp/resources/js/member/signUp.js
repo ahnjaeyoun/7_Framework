@@ -130,30 +130,29 @@ memberEmail.addEventListener("input", () => {
     if(  regEx.test(memberEmail.value)  ){ // 유효한 경우
 
         /* fetch() API를 이용한 ajax(비동기 통신) : 이메일 중복*/
-        //  url : /dupCheck/email
-
-        // GET 방식
-        fetch("/dupCheck/email?email=" + memberEmail.value)
-        .then( res => res.text())
-        .then(count => {
-
-            // count : 중복되면 1, 중복 아니면 0
-            if(count == 0) {
-                emailMessage.innerText = "사용 가능한 이메일입니다.";
-                emailMessage.classList.add("confirm"); 
-                emailMessage.classList.remove("error");
-
-                checkObj.memberEmail = true; 
-            } else {
-                emailMessage.innerText = "이미 사용중인 이메일입니다.";
-                emailMessage.classList.add("error"); 
-                emailMessage.classList.remove("confirm");
-
-                checkObj.memberEmail = false;
-            }       
-        })
-        .catch( err => console.log(err));
-
+		//   url:   /dupCheck/email
+		
+		// GET 방식 
+		fetch("/dupCheck/email?email=" + memberEmail.value)
+		.then(res => res.text())
+		.then(count => {
+			
+			//count : 중복되면 1, 중복 아니면 0
+			if(count == 0) {
+			 	emailMessage.innerText = "사용 가능한 이메일입니다.";
+        		emailMessage.classList.add("confirm"); // .confirm 스타일 적용
+        		emailMessage.classList.remove("error"); // .error 스타일 제거
+        		checkObj.memberEmail = true;
+			}else {
+				emailMessage.innerText = "이미 사용중인 이메일입니다.";
+        		emailMessage.classList.add("error"); // .error 스타일 적용
+        		emailMessage.classList.remove("confirm"); // .confirm 스타일 제거
+        		checkObj.memberEmail = false;
+			}	
+			
+		})
+		.catch(err => console.log(err));
+		
 
     } else{ // 유효하지 않은 경우(무효인 경우)
         emailMessage.innerText = "이메일 형식이 유효하지 않습니다";
@@ -280,28 +279,27 @@ memberNickname.addEventListener("input", ()=>{
 
     if(regEx.test(memberNickname.value)){// 유효
 
-        /* fetch() API를 이용한 ajax(비동기 통신) : 닉네임 중복검사 */
-        // url : /dupCheck/nickname
-        fetch("/dupCheck/nickname?nickname=" + memberNickname.value)
-        .then( res => res.text())
+        fetch("/dupCheck/nickname?nickname="+memberNickname.value)
+        .then(resp => resp.text()) // 응답 객체를 text로 파싱(변환)
         .then(count => {
 
-            // count : 중복되면 1, 중복 아니면 0
-            if(count == 0) {
-                nickMessage.innerText = "사용 가능한 닉네임입니다.";
-                nickMessage.classList.add("confirm"); 
+            if(count == 0){ // 중복 아닌 경우
+                nickMessage.innerText = "사용 가능한 닉네임 입니다";
+                nickMessage.classList.add("confirm");
                 nickMessage.classList.remove("error");
-
-                checkObj.memberNickname = true; 
-            } else {
-                nickMessage.innerText = "이미 사용중인 닉네임입니다.";
-                nickMessage.classList.add("error"); 
+                checkObj.memberNickname = true;
+                
+            }else{ // 중복인 경우
+                nickMessage.innerText = "이미 사용중인 닉네임 입니다";
+                nickMessage.classList.add("error");
                 nickMessage.classList.remove("confirm");
-
                 checkObj.memberNickname = false;
-            }       
+            }
         })
-        .catch( err => console.log(err));
+        .catch(err => console.log(err));
+
+        
+
 
     } else{ // 무효
         nickMessage.innerText = "닉네임 형식이 유효하지 않습니다";
@@ -311,7 +309,6 @@ memberNickname.addEventListener("input", ()=>{
     }
 
 });
-
 
 
 // 전화번호 유효성 검사
@@ -353,10 +350,112 @@ memberTel.addEventListener("input", ()=>{
 // --------------------- 이메일 인증 ---------------------
 
 // 인증번호 발송
+const sendAuthKeyBtn = document.getElementById("sendAuthKeyBtn");
+const authKeyMessage = document.getElementById("authKeyMessage");
+let authTimer;
+let authMin = 4;
+let authSec = 59;
+
+// 인증번호를 발송한 이메일 저장
+let tempEmail;
+
+sendAuthKeyBtn.addEventListener("click", function(){
+
+    authMin = 4;
+    authSec = 59;
+
+    checkObj.authKey = false;
+
+    if(checkObj.memberEmail){ // 중복이 아닌 이메일인 경우
+
+
+        /* fetch() API 방식 ajax */
+        fetch("/sendEmail/signUp?email="+memberEmail.value)
+        .then(resp => resp.text())
+        .then(result => {
+            if(result > 0){
+                console.log("인증 번호가 발송되었습니다.")
+                tempEmail = memberEmail.value;
+            }else{
+                console.log("인증번호 발송 실패")
+            }
+        })
+        .catch(err => {
+            console.log("이메일 발송 중 에러 발생");
+            console.log(err);
+        });
+        
+
+        alert("인증번호가 발송 되었습니다.");
+
+        
+        authKeyMessage.innerText = "05:00";
+        authKeyMessage.classList.remove("confirm");
+
+        authTimer = window.setInterval(()=>{
+													// 삼항연산자  :  조건 	  ?   	true : false
+            authKeyMessage.innerText = "0" + authMin + ":" + (authSec < 10 ? "0" + authSec : authSec);
+            
+            // 남은 시간이 0분 0초인 경우
+            if(authMin == 0 && authSec == 0){
+                checkObj.authKey = false;
+                clearInterval(authTimer);
+                return;
+            }
+
+            // 0초인 경우
+            if(authSec == 0){
+                authSec = 60;
+                authMin--;
+            }
+
+
+            authSec--; // 1초 감소
+
+        }, 1000)
+
+    } else{
+        alert("중복되지 않은 이메일을 작성해주세요.");
+        memberEmail.focus();
+    }
+
+});
 
 
 // 인증 확인
+const authKey = document.getElementById("authKey");
+const checkAuthKeyBtn = document.getElementById("checkAuthKeyBtn");
 
+checkAuthKeyBtn.addEventListener("click", function(){
+
+    if(authMin > 0 || authSec > 0){ // 시간 제한이 지나지 않은 경우에만 인증번호 검사 진행
+        /* fetch API */
+        const obj = {"inputKey":authKey.value, "email":tempEmail}
+        const query = new URLSearchParams(obj).toString()
+        // inputKey=123456&email=user01
+
+        fetch("/sendEmail/checkAuthKey?" + query)
+        .then(resp => resp.text())
+        .then(result => {
+            if(result > 0){
+                clearInterval(authTimer);
+                authKeyMessage.innerText = "인증되었습니다.";
+                authKeyMessage.classList.add("confirm");
+                checkObj.authKey = true;
+
+            } else{
+                alert("인증번호가 일치하지 않습니다.")
+                checkObj.authKey = false;
+            }
+        })
+        .catch(err => console.log(err));
+
+
+    } else{
+        alert("인증 시간이 만료되었습니다. 다시 시도해주세요.")
+    }
+
+});
 
 
 

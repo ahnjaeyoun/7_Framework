@@ -80,9 +80,9 @@
   	 -->
   
   	<!-- 
+  		<select></select>
   		<insert></insert>
   		<update></update>
-  		<select></select>
   		<delete></delete>
   		사용 가능한 속성도 조금씩 다름
   	 -->
@@ -94,5 +94,24 @@
 		WHERE MEMBER_DEL_FL = 'N'
 		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
+	
+	
+	<insert id="signUp" parameterType="Member">
+		INSERT INTO "MEMBER"
+		VALUES(SEQ_MEMBER_NO.NEXTVAL
+			, #{memberEmail}
+			, #{memberPw}
+			, #{memberNickname}
+			, #{memberTel}
+			, #{memberAddress}
+			, NULL, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
   
 </mapper>

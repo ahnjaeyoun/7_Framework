@@ -1,5 +1,8 @@
 package edu.kh.project.common;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,12 +24,11 @@ public class ExceptionController {
 		
 		// 누구에 의해서?
 		// View Resolver의 prefix, suffix를 붙여 JSP 경로를 만든것
-		// return "/WEB-INF/views/common/error.jsp";
+		//return "/WEB-INF/views/common/error.jsp";
 		return "common/error";
-		
 	}
 	
-	
+
 	
 	
 }
