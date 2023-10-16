@@ -1,0 +1,9 @@
+package edu.kh.project.board.model.service;
+
+import edu.kh.project.board.model.dao.BoardDAO;
+
+public class BoardServiceImpl {
+	
+	private BoardDAO dao;
+
+}

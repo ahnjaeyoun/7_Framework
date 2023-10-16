@@ -1,0 +1,16 @@
+package edu.kh.project.board.model.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import edu.kh.project.board.model.dao.BoardDAO;
+
+public class BoardServiceImpl implements BoardService {
+	
+	@Autowired
+	private BoardDAO dao;
+	
+	
+	
+	
+
+}
