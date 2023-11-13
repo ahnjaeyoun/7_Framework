@@ -14,21 +14,20 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.kh.project.board.model.service.BoardService;
 
 // Interceptor : 요청/응답을 가로채는 객체
-// Client <-> (Filter) <-> Dispatcher Servlet <-> (InterCeptor) <-> Controller
+// Client <-> (Filter) <->  Dispatcher Servlet <-> (Interceptor) <-> Controller
 
 
 public class BoardTypeInterceptor implements HandlerInterceptor {
-
-	/* preHandle : 전처리				Dispatcher Servlet -> Controller 사이
-	 * postHandle : 후처리				Controller -> Dispatcher Servlet 사이
-	 * afterCompletion : 뷰 완성 후		View Resolver -> Dispatcher Servlet 사이
+	
+	/* preHandle : 전처리    Dispatcher Servlet -> Controller 사이
+	 * postHandle : 후처리   Controller -> Dispathcer Servlet 사이
+	 * afterCompletion: 뷰 완성 후  View Resolver -> Dispathcher Servlet 사이
 	 * */
 	
 	@Autowired
 	private BoardService service;
 	
-	
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -40,22 +39,20 @@ public class BoardTypeInterceptor implements HandlerInterceptor {
 		// -> 서버 시작 후 누구도 요청을 한적이 없을 경우
 		if(application.getAttribute("boardTypeList") == null) {
 			
-			
 			// 조회 서비스 호출
 			System.out.println("BOARD_TYPE 조회 서비스 호출");
 			
-			List<Map<String, Object>> boardTypeList
+			List<Map<String, Object>> boardTypeList 
 				= service.selectBoardTypeList();
 			
-			System.out.println("boardTypeList : " + boardTypeList);
+			System.out.println("boardTypeList::" + boardTypeList);
 			
 			
-			// application scope에 세팅
+			// application scope 세팅
 			application.setAttribute("boardTypeList", boardTypeList);
 			
 			
 		}
-		
 		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
@@ -73,6 +70,6 @@ public class BoardTypeInterceptor implements HandlerInterceptor {
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
-	
+
 	
 }

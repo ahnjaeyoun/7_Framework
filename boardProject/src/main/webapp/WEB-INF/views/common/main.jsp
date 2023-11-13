@@ -110,16 +110,15 @@
             				
             				<a href="/myPage/profile">
             					
-            					<%-- 프로필 이미지가 없으면 기본 이미지 --%>
-		                    	<c:if test="${empty loginMember.profileImage }">
-		                       		<img src="/resources/images/user.png" id="memberProfile">                   	
-		                    	</c:if>
-		                    	
-		                    	<%-- 프로필 이미지가 있으면 저장된 이미지 --%>
-		                    	<c:if test="${not empty loginMember.profileImage }">
-		                    		<img src="${loginMember.profileImage }" id="memberProfile">
-		                    	</c:if>
-		                    	
+            					<c:if test="${empty loginMember.profileImage}" >
+                                    <img src="/resources/images/user.png" id="memberProfile">
+                                </c:if>
+
+                                <%-- 프로필 이미지가 있으면 있는 이미지 --%>
+                                <c:if test="${not empty loginMember.profileImage}" >
+                                    <img src="${loginMember.profileImage}" id="memberProfile">
+                                </c:if>
+            					
             				</a>
             				
             				<div class="my-info">
@@ -147,6 +146,10 @@
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	
+	<!-- SockJS 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+
 	<!-- main.js 추가 -->
 	<script src="/resources/js/main.js"></script>
 	

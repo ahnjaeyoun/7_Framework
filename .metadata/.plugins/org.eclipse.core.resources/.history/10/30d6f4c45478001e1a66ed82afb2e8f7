@@ -1,0 +1,10 @@
+package edu.kh.project.common.aop;
+
+// Pointcut을 모아둘 클래스
+public class CommonPointcut {
+	
+	@Pointcut()
+	public void serviceImplPointcut() {
+		
+	}
+}
